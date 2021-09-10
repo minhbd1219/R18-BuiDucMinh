@@ -43,9 +43,9 @@ CREATE TABLE `Account` (
     FullName VARCHAR(30) not null,
     DepartmentID TINYINT UNSIGNED not null,
     PositionID TINYINT UNSIGNED not null,
-    CreateDate DATE ,
-    FOREIGN KEY (PositionID) REFERENCES `Position` (PositionID) ON DELETE CASCADE,
-    FOREIGN KEY (DepartmentID) REFERENCES Department (DepartmentID) ON DELETE CASCADE
+    CreateDate DATE 
+     FOREIGN KEY (PositionID) REFERENCES `Position` (PositionID) ON DELETE CASCADE, on update cascade,
+     FOREIGN KEY (DepartmentID) REFERENCES Department (DepartmentID) ON DELETE CASCADE on update cascade
 );
 insert into Account(Email, Username, DepartmentID, PositionID, Fullname) values 
 ('vtiedu@gmail.com','admin',12,12,'A'),  ('vtiedu@gmail.com1','admin1',12,0,'B'),  ('vtiedu@gmail.com2','admin2',12,13,'Nguyen Van A'),
@@ -63,8 +63,8 @@ CREATE TABLE `Group` (
     GroupID TINYINT UNSIGNED UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     GroupName VARCHAR(30) unique key,
     CreatorID INT UNSIGNED not null,
-    CreateDate DATE,
-    FOREIGN KEY (CreatorID) REFERENCES `Account`(AccountID) ON DELETE CASCADE
+    CreateDate DATE
+    -- FOREIGN KEY (CreatorID) REFERENCES `Account`(AccountID) ON DELETE CASCADE
 );
 
 insert into `Group` (CreatorID,GroupName) values (11,'Artist'),    (16,'Physic'),         (21,'Love'), 
@@ -80,10 +80,10 @@ DROP TABLE IF EXISTS GroupAccount;
 CREATE TABLE GroupAccount (
     GroupID TINYINT UNSIGNED,
     AccountID INT  UNSIGNED,
-    JoinDate DATE,
-    PRIMARY KEY (GroupID , AccountID),
-    FOREIGN KEY (GroupID) 	REFERENCES `Group`(GroupID) ON DELETE CASCADE,
-    FOREIGN KEY (AccountID) REFERENCES `Account`(AccountID) ON DELETE CASCADE
+    JoinDate DATE
+    -- PRIMARY KEY (GroupID , AccountID),
+    -- FOREIGN KEY (GroupID) 	REFERENCES `Group`(GroupID) ON DELETE CASCADE,
+    -- FOREIGN KEY (AccountID) REFERENCES `Account`(AccountID) ON DELETE CASCADE
 );
 
 insert into GroupAccount (GroupID, AccountID, JoinDate) values 	(1, 10,'2021-08-07'), (6, 22,'2020-08-07'), (11, 27,'2019-08-07'),
@@ -128,10 +128,10 @@ CREATE TABLE Question (
     CategoryID TINYINT UNSIGNED not null,
     TypeID INT UNSIGNED not null,
     CreatorID INT UNSIGNED not null,
-    CreateDate DATE,
-    FOREIGN KEY (CategoryID) REFERENCES CategoryQuestion (CategoryID) ON DELETE CASCADE,
-    FOREIGN KEY (TypeID) REFERENCES TypeQuestion (TypeID) ON DELETE CASCADE,
-    FOREIGN KEY (CreatorID) REFERENCES `Account`(AccountID) ON DELETE CASCADE
+    CreateDate DATE
+    -- FOREIGN KEY (CategoryID) REFERENCES CategoryQuestion (CategoryID) ON DELETE CASCADE,
+   --  FOREIGN KEY (TypeID) REFERENCES TypeQuestion (TypeID) ON DELETE CASCADE,
+   --  FOREIGN KEY (CreatorID) REFERENCES `Account`(AccountID) ON DELETE CASCADE
 );
 
 insert into Question(CategoryID, Content, CreatorID,TypeID) values  (1, 'Multiple Choice',11,20),
@@ -142,12 +142,13 @@ insert into Question(CategoryID, Content, CreatorID,TypeID) values  (1, 'Multipl
 select *from Question;                                                            
 --------------------------------------------------------------------------------------------------------------
 -- Table 9
+DROP TABLE IF EXISTS Answer;
 CREATE TABLE Answer (
     AnswerID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     Content VARCHAR(200) not null,
     QuestionID INT UNSIGNED ,
-    isCorrect ENUM('True', 'False') not null,
-    FOREIGN KEY (QuestionID) REFERENCES Question (QuestionID) ON DELETE CASCADE
+    isCorrect ENUM('True', 'False') not null
+    -- FOREIGN KEY (QuestionID) REFERENCES Question (QuestionID) ON DELETE CASCADE
 );
 
 insert into Answer(Content, QuestionID, isCorrect) values 
@@ -167,9 +168,9 @@ CREATE TABLE Exam (
     CategoryID TINYINT UNSIGNED,
     Duration TIME,
     CreatorID INT UNSIGNED,
-    CreateDate DATETIME,
-    FOREIGN KEY (CategoryID) REFERENCES CategoryQuestion (CategoryID) ON DELETE CASCADE,
-    FOREIGN KEY (CreatorID) REFERENCES `Account`(AccountID) ON DELETE CASCADE
+    CreateDate DATETIME
+    -- FOREIGN KEY (CategoryID) REFERENCES CategoryQuestion (CategoryID) ON DELETE CASCADE,
+    -- FOREIGN KEY (CreatorID) REFERENCES `Account`(AccountID) ON DELETE CASCADE
 ); 
 
 insert into Exam(CODE1,Title,CategoryID,CreatorID) values
@@ -184,10 +185,10 @@ select * from Exam;
 DROP TABLE IF EXISTS ExamQuestion;
 CREATE TABLE ExamQuestion (
     ExamID INT UNSIGNED,
-    QuestionID INT UNSIGNED,
-    PRIMARY KEY (ExamID ,QuestionID),
-    FOREIGN KEY (ExamID) REFERENCES Exam(ExamID) ON DELETE CASCADE,
-    FOREIGN KEY (QuestionID)REFERENCES Question(QuestionID) ON DELETE CASCADE
+    QuestionID INT UNSIGNED
+    -- PRIMARY KEY (ExamID ,QuestionID),
+    -- FOREIGN KEY (ExamID) REFERENCES Exam(ExamID) ON DELETE CASCADE,
+    -- FOREIGN KEY (QuestionID)REFERENCES Question(QuestionID) ON DELETE CASCADE
 );
 insert into ExamQuestion (ExamID,QuestionID) values (1,5), (4,7), (3,6), (2,8), (7,4),
 													(2,9), (1,1), (5,4), (6,1), (9,3),
@@ -205,17 +206,16 @@ from Department
 where DepartmentName = 'Sale';
 --------------------------------------------------------------------------------------------------------------
 -- Q4 lay ra account fullname dai nhat
-select AccountID, Fullname 
+select Fullname, length(Fullname) 
 from Account 
-order by Fullname DESC 
-LIMIT 1;
+order by length(Fullname) DESC ;
 --------------------------------------------------------------------------------------------------------------
 -- Q5 lay ra account fullname dai nhat thuoc phong ban id = 3
-select AccountID, Fullname 
+select length(Fullname), Fullname 
 from Account
 where AccountID = '3'
-order by Fullname DESC
-limit 1;
+order by length(Fullname) DESC
+limit 5;
 --------------------------------------------------------------------------------------------------------------
 -- Q6 lay ten group da tham gia truoc 2019/12/20
 select distinct GroupName,JoinDate 
@@ -227,7 +227,7 @@ select QuestionID, Content from Question where Content >4;
 --------------------------------------------------------------------------------------------------------------
 -- Q8 ma de thi co tg thi > 60p va tao trc ngay 20/12/2019
 select CreateDate,Duration from Exam
-where Duration > 60
+where Duration > '60'
 having CreateDate < '2019-12-20';
 --------------------------------------------------------------------------------------------------------------
 -- Q9 5 group dc tao gan day nhat
@@ -243,14 +243,13 @@ where DepartmentID = 2;
 --------------------------------------------------------------------------------------------------------------
 -- Q11 ten bat dau bang D ket thuc bang o
 select FullName from Account
-where FullName ='D%o';
+where FullName LIKE 'D%o';
 --------------------------------------------------------------------------------------------------------------
 -- Q12 xoa cac exam tao trc 20/12/2019
-select CreateDate from Exam
-where CreateDate <'2019-12-20';
+delete from Exam where CreateDate <'2019-12-20';
 --------------------------------------------------------------------------------------------------------------
 -- Q13 xoa cac question co noi dung bat dau tu "cau hoi"
-delete from Question where Content = 'cau hoi%';
+delete from Question where Content LIKE 'cau hoi%';
 --------------------------------------------------------------------------------------------------------------
 -- Q14 update thong tin id = 5 -> Nguyen Ba Loc, email = locnguyenba@vti.com.vn
 update `Account`
@@ -265,4 +264,4 @@ from `Account`(AccountID), `Group`(GroupID)
 where AccountID.5 = GroupID.4;
 select * from `Account`;
 --------------------------------------------------------------------------------------------------------------
- 
+-- set acc.id5 = group.id4 

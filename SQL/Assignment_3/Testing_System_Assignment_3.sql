@@ -259,9 +259,5 @@ select * from `Account`;
 --------------------------------------------------------------------------------------------------------------
 -- Q15 update account co id = 5 thuoc group co id = 4
 update AccountID 
-set AccountID.AcID = GroupID.GrID
-from `Account`(AccountID), `Group`(GroupID)
-where AccountID.5 = GroupID.4;
-select * from `Account`;
---------------------------------------------------------------------------------------------------------------
--- set acc.id5 = group.id4 
+set groupID = 4
+where accountID = 5;

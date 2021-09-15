@@ -33,27 +33,29 @@ insert into `Position` (PositionName) values  ('Dev'), ('Test'),('Scrum Master')
 											  ('Fresher'), ('Junior'), ('Senior'), ('IOS Dev'),('Game Dev');
 select * from `Position`;
 --------------------------------------------------------------------------------------------------------------
--- Table 3
+-- Table 3 
 DROP TABLE IF EXISTS `Account`;
 CREATE TABLE `Account` (
     AccountID INT UNSIGNED UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     Age INT,
-    Email VARCHAR(30) UNIQUE KEY,
-    Username VARCHAR(30) NOT NULL unique key,
-    FullName VARCHAR(30) not null,
+    Email VARCHAR(50) UNIQUE KEY,
+    Username VARCHAR(50) NOT NULL unique key,
+    FullName VARCHAR(50) not null,
     DepartmentID TINYINT UNSIGNED not null,
     PositionID TINYINT UNSIGNED not null,
     CreateDate DATE 
-     FOREIGN KEY (PositionID) REFERENCES `Position` (PositionID) ON DELETE CASCADE, on update cascade,
-     FOREIGN KEY (DepartmentID) REFERENCES Department (DepartmentID) ON DELETE CASCADE on update cascade
+     -- FOREIGN KEY (PositionID) REFERENCES `Position` (PositionID) ON DELETE CASCADE, on update cascade,
+     -- FOREIGN KEY (DepartmentID) REFERENCES Department (DepartmentID) ON DELETE CASCADE on update cascade
 );
 insert into Account(Email, Username, DepartmentID, PositionID, Fullname) values 
-('vtiedu@gmail.com','admin',12,12,'A'),  ('vtiedu@gmail.com1','admin1',12,0,'B'),  ('vtiedu@gmail.com2','admin2',12,13,'Nguyen Van A'),
-('root@gmail.com','root',21,21,'A'),     ('root@gmail.com1','root1',21,22,'Tran Thi Thao Anh');
--- ('vtiedu@gmail.com','admin1',12,13,'A'),  ('vtiedu@gmail.com1','admin1',12,0,'B'),  ('vtiedu@gmail.com2','admin2',12,13,'Nguyen Van Ba'),
--- ('root@gmail.com','root',21,21,'A'),     ('root@gmail.com1','root1',21,22,'B'),
--- ('vtiedu@gmail.com','admin2',12,12,'A'),  ('vtiedu@gmail.com1','admin1',12,0,'B'),  ('vtiedu@gmail.com2','admin2',12,13,'Nguyen Thi Thao'),
--- ('root@gmail.com','root',21,21,'A'),     ('root@gmail.com1','root1',21,22,'B');   
+('vtiedu@gmail.com','admin',12,12,'Tran Viet Anh'),  ('vtiedu@gmail.com1','admin1',12,0,'Nguyen Viet Hoang'),  ('vtiedu@gmail.com2','admin2',12,13,'Nguyen Van A'),
+('root@gmail.com','root',21,21,'Trinh Khanh Linh'),     ('root@gmail.com1','root1',21,22,'Tran Thi Thao Anh'),
+
+ ('minhbuiduc@gmail.com','solo',12,19,'Bui Duc Minh'),  ('thu1@edu.com','assistance',8,12,'Bui Minh Thu'),  ('nv3@edu.vn','pm',6,7,'Nguyen Van Ba'),
+ ('nam@edu.vn','dev',25,8,'Nguyen Van Nam'),     ('hoai1@.edu.vn','scrum',16,14,'Trinh Thi Hoai'),
+ 
+ ('cuong@gmail.com','admin4',09,09,'Duong Duc Cuong'),  ('thanhnb@gmail.com','qa',07,16,'Nguyen Ba Thanh'),  ('ThaoNT@edu.vn2','SA',14,03,'Nguyen Thi Thao'),
+ ('trinhcd@edu.vn','minister',08,14,'Chu Duc Trinh'),     ('tungbt@gmail.com','Brse',14,10,'Bui Thanh Tung');   
 select * from `Account`;
 --------------------------------------------------------------------------------------------------------------
 
@@ -67,11 +69,11 @@ CREATE TABLE `Group` (
     -- FOREIGN KEY (CreatorID) REFERENCES `Account`(AccountID) ON DELETE CASCADE
 );
 
-insert into `Group` (CreatorID,GroupName) values (11,'Artist'),    (16,'Physic'),         (21,'Love'), 
-												 (12,'Science'),   (17,'I.E'),            (22,'War'), 
-                                                 (13,'AI'),        (18,'History'),        (23,'Trash_talk'),
-                                                 (14,'ML'),        (19,'Politics'),       (24,'FWB'),    
-                                                 (15,'Bigdata'),   (20,'Block_chain'),    (25,'Social');
+insert into `Group` (CreatorID,GroupName,CreateDate) values (11,'Artist','1986-07-08'),    (16,'Physic','2021-01-01'),         (21,'Love','2002-06-06'), 
+												            (12,'Science','1999-06-08'),   (17,'I.E','2014-06-13'),            (22,'War','2001-01-09'), 
+                                                            (13,'AI','2011-01-02'),        (18,'History','2007-04-24'),        (23,'Trash_talk','2013-03-03'),
+                                                            (14,'ML','2015-04-05'),        (19,'Politics','2023-05-26'),       (24,'FWB','1989-02-07'),    
+                                                            (15,'Bigdata','2020-12-19'),   (20,'Block_chain','2014-09-12'),    (25,'Social','1997-11-08');
 select * from `Group`;
 --------------------------------------------------------------------------------------------------------------
 
@@ -124,7 +126,7 @@ select*from CategoryQuestion;
 DROP TABLE IF EXISTS Question;
 CREATE TABLE Question (
     QuestionID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-    Content VARCHAR(30) not null,
+    Content VARCHAR(50) not null,
     CategoryID TINYINT UNSIGNED not null,
     TypeID INT UNSIGNED not null,
     CreatorID INT UNSIGNED not null,
@@ -134,14 +136,15 @@ CREATE TABLE Question (
    --  FOREIGN KEY (CreatorID) REFERENCES `Account`(AccountID) ON DELETE CASCADE
 );
 
-insert into Question(CategoryID, Content, CreatorID,TypeID) values  (1, 'Multiple Choice',11,20),
-																	(2, 'Text Question',12,21),   
-																	(3, 'Rank Order',13,22),    
-																	(4, 'Image',14,23),         
-																	(5, 'CAPTCHA',15,24);
+insert into Question(CategoryID, Content, CreatorID,TypeID) values 
+(1, ' Are you religious?',11,20),             (6, ' Do you prefer Cheetos or Doritos?',04,20),        (11, 'Are you stubborn?',10,29), 
+(2, 'Do you believe in ghosts?',20,12),       (7, 'Do you eat breakfast in the morning?',16,19),      (12, 'Do you take vitamins daily?',36,29), 
+(3, 'What is your dream job?',28,34),         (8, ' Have you ever ridden a city bus before?',37,24),  (13, 'Have you ever won a contest?',54,37), 
+(4, ' Who is your role model? Why?',14,05),   (9, 'What are you most afraid of?',28,03),              (14, 'Do you want kids? How many?',09,09), 
+(5, 'Do you prefer Coke or Pepsi?',14,06),    (10, 'Are you a sore loser?',64,01),                    (15, 'Do you get jealous easily',13,19);
 select *from Question;                                                            
 --------------------------------------------------------------------------------------------------------------
--- Table 9
+-- Table 9 
 DROP TABLE IF EXISTS Answer;
 CREATE TABLE Answer (
     AnswerID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
@@ -152,11 +155,11 @@ CREATE TABLE Answer (
 );
 
 insert into Answer(Content, QuestionID, isCorrect) values 
-	('The cat stretched.',1,'True'),  
-	('Jacob stood on his tiptoes.',2,'False'), 
-	('The car turned the corner.',3,'False'), 
-	('Kelly twirled in circles.',4,'True'),  
-	('She opened the door.',5,'True');
+	('The cat stretched.',1,'True'),  		     	('Sarah and Ira drove to the store',6,'True'),    	               ('Samantha, Elizabeth, and Joan are on the committee.',11,'False'),	
+	('Jacob stood on his tiptoes.',2,'False'), 		('Jenny and I opened all the gifts.',7,'False'),                   ('Misha walked and looked around.',12,'False'),
+	('The car turned the corner.',3,'False'),  		('The cat and dog ate.',8,'False'),                                ('He was eating and talking.',13,'True'),
+	('Kelly twirled in circles.',4,'True'),  		('My parents and I went to a movie.',9,'True'),                    ('I rinsed and dried the dishes.',14,'False'),
+	('She opened the door.',5,'True'), 			    ('Mrs. Juarez and Mr. Smith are dancing gracefully.',10,'True'),   ('Joe stood up and spoke to the crowd.',15,'True');
 select * from Answer;                                                
 --------------------------------------------------------------------------------------------------------------
 -- Table 10
@@ -195,8 +198,7 @@ insert into ExamQuestion (ExamID,QuestionID) values (1,5), (4,7), (3,6), (2,8), 
                                                     (7,7), (6,9), (9,6), (4,8), (2,0);
 select * from ExamQuestion;
 
-
-  				                        	-- ASSIGNMENT 3 --
+												-- ASIGNMENT 3 --
 
 --------------------------------------------------------------------------------------------------------------
 -- Q1 Them 10 du lieu vao cac bang

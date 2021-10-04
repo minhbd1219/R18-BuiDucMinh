@@ -8,7 +8,19 @@ public class News implements INews {
 	private String content;
 	private float averageRate;
 	private int[] rate;
-
+	public static int COUNT = 0;
+	
+	public News(String title, String publishDate, String author, String 
+	content, int[] rate) {
+	COUNT++;
+	this.id = COUNT;
+	this.title = title;
+	this.publishDate = publishDate;
+	this.author = author;
+	this.content = content;
+	this.averageRate = averageRate;
+	this.rate = rate;
+	}
 	
 	// Getters & Setters //
 	public int getId() {
@@ -58,5 +70,6 @@ public class News implements INews {
 		averageRate = (float) ((rate[0]+rate[1]+rate[2])/3);
 		return averageRate;
 	}
+
 	
 }

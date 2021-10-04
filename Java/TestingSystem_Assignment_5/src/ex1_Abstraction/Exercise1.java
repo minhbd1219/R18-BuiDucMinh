@@ -46,6 +46,11 @@ public class Exercise1 {
 			System.out.println("Rate 3:");
 			int rate3 = sc.nextInt();
 			int[] rates = { rate1, rate2, rate3 };
+			
+			News news = new News(title, publishDate, author, 
+			content, rates);
+			listNews.add(news);
+			
 			break;
 			
 		case 2:

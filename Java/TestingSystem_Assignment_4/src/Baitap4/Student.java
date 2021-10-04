@@ -21,18 +21,18 @@ public class Student {
 	this.score = this.score + score;
 }
  @Override
-  public String toString() {
-  String rank = null;
-  if (this.score < 4.0) {
-  rank = "Yếu";
-  } else if (this.score < 6.0) {
-  rank = "Trung Bình";
-  } else if (this.score < 8.0) {
-  rank = "Khá";
-  }else {
-  rank = "Giỏi";
-  }
- return "Student [id=" + id + ", name=" + name + ", hometown=" + 
+  	public String toString() {
+	 String rank = null;
+	 if (this.score < 4.0) {
+		 rank = "Yếu";
+	 } else if (this.score < 6.0) {
+		 rank = "Trung Bình";
+	 } else if (this.score < 8.0) {
+		 rank = "Khá";
+	 }else {
+		 rank = "Giỏi";
+	 }
+	 return "Student [id=" + id + ", name=" + name + ", hometown=" + 
  hometown + ", score=" + score + ", Xếp loại=" + rank + "]";
  }
 }

@@ -56,7 +56,7 @@ public class Excersice5 {
 				}
 			}
 		}
-	
+
 	private void printListStaff() {
 		for (Staff staff : staffList) {
 		System.out.println(staff);
